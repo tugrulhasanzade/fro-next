@@ -1,3 +1,4 @@
+
 // Ortak Tipler
 export type Platform = 'trendyol' | 'hepsiburada';
 
@@ -50,6 +51,7 @@ export interface TrendyolProduct {
   batchStatus?: 'PENDING' | 'COMPLETED' | 'FAILED';
   failureReasons?: string[];
   lastModified: number; // timestamp
+  lastSyncAt?: number; // Backend senkron zamanı
 }
 
 // HEPSİBURADA TİPLERİ
@@ -62,6 +64,10 @@ export interface HepsiburadaProduct {
   availableStock: number;
   dispatchTime: number;
   cargoCompany1: string;
+  cargoCompany2?: string; // Opsiyonel
+  cargoCompany3?: string; // Opsiyonel
+  shippingAddressLabel?: string; // Varsa
+  shippingProfileName?: string; // Varsa
   // Katalog Takip
   merchantId: string;
   categoryId: string;
@@ -83,12 +89,23 @@ export interface HepsiburadaProduct {
   errorMessage?: string;
   errorDetails?: string;
   updateDate: number; // timestamp
+  lastSyncAt?: number; // Backend senkron zamanı
 }
 
 export interface FilterState {
+  // Ortak / Trendyol
   search: string; // barcode, name, sku
   status: string; // approved, onSale etc.
   startDate: string;
   endDate: string;
   brand: string;
+  // Trendyol Specific
+  dateQueryType?: 'created' | 'lastModified';
+  page?: number;
+  size?: number;
+  
+  // Hepsiburada Specific
+  productId?: string;
+  offset?: number;
+  limit?: number;
 }

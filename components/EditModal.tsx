@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { X, Save, Box, Tag, Image as ImageIcon, Truck, Activity, Video, Layers } from 'lucide-react';
+import { X, Save, Box, Tag, Image as ImageIcon, Truck, Activity, Video, Layers, Sparkles } from 'lucide-react';
 import { TrendyolProduct, HepsiburadaProduct, Platform } from '../types';
 import { GlassCard } from './GlassCard';
 import { StatusBadge } from './StatusBadge';
@@ -13,6 +14,8 @@ interface Props {
 
 export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform }) => {
   const [activeTab, setActiveTab] = useState('general');
+  // State to track which field is currently being "processed" by AI
+  const [aiProcessing, setAiProcessing] = useState<string | null>(null);
 
   if (!isOpen || !product) return null;
 
@@ -28,9 +31,27 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
     }
   `;
 
-  // Fix Contrast: Pure white background for light mode inputs, darker border
-  const inputLabelClass = "text-xs font-black text-slate-800 dark:text-slate-400 uppercase tracking-wider mb-2 block";
-  const inputClass = "w-full bg-white dark:bg-slate-950/50 border border-slate-300 dark:border-slate-700/50 rounded-xl p-3 text-slate-950 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all shadow-sm font-semibold";
+  // Input Styles
+  const inputLabelClass = "text-xs font-black text-slate-950 dark:text-slate-400 uppercase tracking-wider mb-2 block";
+  const inputClass = "w-full bg-white dark:bg-slate-950/50 border border-slate-300 dark:border-slate-700/50 rounded-xl p-3 text-slate-950 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all shadow-sm font-semibold pr-10"; // pr-10 added for icon space
+
+  // AI Simulation Handler
+  const handleAiMagic = (field: string) => {
+    if (aiProcessing) return; // Prevent double click
+    setAiProcessing(field);
+    
+    // Simulate AI delay (e.g. 2 seconds)
+    setTimeout(() => {
+      setAiProcessing(null);
+    }, 2000);
+  };
+
+  // Helper to get AI active class
+  const getAiClass = (field: string) => {
+    return aiProcessing === field 
+      ? "border-purple-500 ring-2 ring-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.4)] animate-pulse transition-all duration-500"
+      : "";
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
@@ -42,7 +63,7 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
              <h2 className="text-2xl font-black text-slate-950 dark:text-white mb-1">
                 {isTrendyol(product) ? product.title : isHepsiburada(product) ? product.urunAdi : 'Ürün Düzenle'}
              </h2>
-             <div className="flex items-center space-x-3 text-sm text-slate-700 dark:text-slate-400">
+             <div className="flex items-center space-x-3 text-sm text-slate-900 dark:text-slate-400">
                 <span className="font-mono bg-white border border-slate-300 dark:border-transparent dark:bg-slate-800 px-2 py-0.5 rounded text-xs text-slate-900 dark:text-slate-300 font-bold">
                     {isTrendyol(product) ? product.barcode : product.hepsiburadaSku}
                 </span>
@@ -85,10 +106,28 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
           {activeTab === 'general' && (
              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-6">
+                   {/* AI Powered Title Input */}
                    <div className="space-y-1">
-                      <label className={inputLabelClass}>Ürün Başlığı</label>
-                      <input type="text" defaultValue={isTrendyol(product) ? product.title : isHepsiburada(product) ? product.urunAdi : ''} className={inputClass} />
+                      <div className="flex justify-between items-center">
+                         <label className={inputLabelClass}>Ürün Başlığı</label>
+                         {aiProcessing === 'title' && <span className="text-[10px] text-purple-600 font-bold animate-pulse">AI Düzenliyor...</span>}
+                      </div>
+                      <div className="relative group">
+                         <input 
+                            type="text" 
+                            defaultValue={isTrendyol(product) ? product.title : isHepsiburada(product) ? product.urunAdi : ''} 
+                            className={`${inputClass} ${getAiClass('title')}`} 
+                         />
+                         <button 
+                            onClick={() => handleAiMagic('title')}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all hover:scale-110"
+                            title="AI ile Başlığı İyileştir"
+                         >
+                            <Sparkles size={16} className={aiProcessing === 'title' ? 'text-purple-600 animate-spin' : ''} />
+                         </button>
+                      </div>
                    </div>
+
                    <div className="grid grid-cols-2 gap-5">
                       <div className="space-y-1">
                          <label className={inputLabelClass}>Barkod</label>
@@ -112,23 +151,37 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
                 </div>
 
                 <div className="space-y-6">
+                   {/* AI Powered Description Textarea */}
                    <div className="space-y-1 h-full flex flex-col">
-                      <label className={inputLabelClass}>Açıklama</label>
-                      <textarea 
-                        rows={8}
-                        defaultValue={isTrendyol(product) ? product.description : isHepsiburada(product) ? product.urunAciklamasi : ''} 
-                        className={`${inputClass} flex-1 resize-none`} 
-                      />
+                      <div className="flex justify-between items-center">
+                          <label className={inputLabelClass}>Açıklama</label>
+                          {aiProcessing === 'desc' && <span className="text-[10px] text-purple-600 font-bold animate-pulse">AI İçerik Üretiyor...</span>}
+                      </div>
+                      <div className="relative group flex-1">
+                          <textarea 
+                            rows={8}
+                            defaultValue={isTrendyol(product) ? product.description : isHepsiburada(product) ? product.urunAciklamasi : ''} 
+                            className={`${inputClass} w-full h-full resize-none ${getAiClass('desc')}`} 
+                          />
+                          <button 
+                              onClick={() => handleAiMagic('desc')}
+                              className="absolute right-3 top-3 p-1.5 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all hover:scale-110"
+                              title="AI ile Açıklamayı Zenginleştir"
+                           >
+                              <Sparkles size={16} className={aiProcessing === 'desc' ? 'text-purple-600 animate-spin' : ''} />
+                           </button>
+                      </div>
                    </div>
+                   
                    {isTrendyol(product) && (
                       <div className="bg-white/80 dark:bg-white/5 p-5 rounded-2xl border border-slate-200 dark:border-white/10">
-                         <h4 className="text-sm font-bold text-slate-900 dark:text-slate-300 mb-3 flex items-center gap-2">
+                         <h4 className="text-sm font-bold text-slate-950 dark:text-slate-300 mb-3 flex items-center gap-2">
                              <Layers size={14}/> Özellikler
                          </h4>
                          <div className="grid grid-cols-2 gap-3">
                             {product.attributes.map(attr => (
                                <div key={attr.attributeId} className="bg-white dark:bg-black/40 p-3 rounded-xl border border-slate-200 dark:border-white/5 flex flex-col shadow-sm">
-                                  <span className="text-[10px] uppercase text-slate-600 dark:text-slate-500 font-bold mb-1">{attr.attributeName}</span>
+                                  <span className="text-[10px] uppercase text-slate-800 dark:text-slate-500 font-bold mb-1">{attr.attributeName}</span>
                                   <span className="text-sm font-bold text-slate-900 dark:text-slate-200">{attr.customAttributeValue || 'Standart'}</span>
                                </div>
                             ))}
@@ -193,9 +246,9 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
                       </div>
                       <div>
                          <h4 className="text-slate-900 dark:text-white font-bold">Hızlı Güncelleme</h4>
-                         <p className="text-sm text-slate-700 dark:text-slate-400 mt-1 mb-3">Stok ve fiyat değişikliklerini anında pazaryerine göndermek için aşağıdaki butonu kullanın.</p>
+                         <p className="text-sm text-slate-900 dark:text-slate-400 mt-1 mb-3">Stok ve fiyat değişikliklerini anında pazaryerine göndermek için aşağıdaki butonu kullanın.</p>
                          <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all shadow-lg shadow-indigo-500/20">
-                            {platform === 'trendyol' ? 'Trendyol Stok & Fiyat Güncelle' : 'Hepsiburada Entegrasyon Güncelle'}
+                            {platform === 'trendyol' ? 'Trendyol Stok & Fiyat Güncelle' : 'Hepsiburada Stok/Fiyat/Kargo Güncelle'}
                          </button>
                       </div>
                    </div>
@@ -226,7 +279,6 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
              </div>
           )}
           
-          {/* ... (Other tabs kept similar but using inputClass/inputLabelClass) ... */}
           {/* VARIANTS TAB (HB ONLY) */}
           {activeTab === 'variants' && isHepsiburada(product) && (
               <div className="space-y-6">
@@ -252,25 +304,29 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
               </div>
           )}
           
-          {/* STATUS TAB ... uses same classes ... */}
+          {/* STATUS TAB */}
           {activeTab === 'status' && (
              <div className="space-y-6">
                 {isTrendyol(product) && (
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4 bg-white/80 dark:bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Ürün Durumu</h3>
+                         <h3 className="text-lg font-bold text-slate-950 dark:text-white mb-4">Ürün Durumu</h3>
                          {/* ... status badges ... */}
                          <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-white/5">
-                            <span className="text-slate-800 dark:text-slate-400 font-bold">Onay Durumu</span>
+                            <span className="text-slate-900 dark:text-slate-400 font-bold">Onay Durumu</span>
                             <StatusBadge status={product.approved ? 'success' : 'warning'} text={product.approved ? 'Onaylandı' : 'Beklemede/Red'} />
                          </div>
                          <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-white/5">
-                            <span className="text-slate-800 dark:text-slate-400 font-bold">Satış Durumu</span>
+                            <span className="text-slate-900 dark:text-slate-400 font-bold">Satış Durumu</span>
                             <StatusBadge status={product.onSale ? 'success' : 'neutral'} text={product.onSale ? 'Satışta' : 'Satışa Kapalı'} />
                          </div>
                          <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-white/5">
-                            <span className="text-slate-800 dark:text-slate-400 font-bold">Arşiv</span>
-                            <span className={`text-sm font-bold ${product.archived ? 'text-orange-600' : 'text-slate-700'}`}>{product.archived ? 'Arşivlenmiş' : 'Aktif'}</span>
+                            <span className="text-slate-900 dark:text-slate-400 font-bold">Arşiv</span>
+                            <span className={`text-sm font-bold ${product.archived ? 'text-orange-600' : 'text-slate-900'}`}>{product.archived ? 'Arşivlenmiş' : 'Aktif'}</span>
+                         </div>
+                         <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-white/5">
+                            <span className="text-slate-900 dark:text-slate-400 font-bold">Senkronizasyon</span>
+                            <span className="text-xs font-mono">{product.lastSyncAt ? new Date(product.lastSyncAt).toLocaleString() : 'Yok'}</span>
                          </div>
                          {product.failureReasons && (
                             <div className="mt-4 bg-red-50 border border-red-200 dark:bg-red-500/10 dark:border-red-500/20 p-4 rounded-xl">
@@ -282,7 +338,7 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
                          )}
                       </div>
                       <div className="space-y-4 bg-white/80 dark:bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Batch İşlemleri</h3>
+                         <h3 className="text-lg font-bold text-slate-950 dark:text-white mb-4">Batch İşlemleri</h3>
                          <div className="space-y-2">
                             <label className={inputLabelClass}>Son Batch ID</label>
                             <div className="flex items-center gap-2">
@@ -297,7 +353,7 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
                                   status={product.batchStatus === 'COMPLETED' ? 'success' : product.batchStatus === 'FAILED' ? 'error' : 'warning'} 
                                   text={product.batchStatus || 'Yok'} 
                                />
-                               <span className="text-xs text-slate-600 ml-auto font-bold">{new Date(product.lastModified).toLocaleDateString()}</span>
+                               <span className="text-xs text-slate-800 ml-auto font-bold">{new Date(product.lastModified).toLocaleDateString()}</span>
                             </div>
                          </div>
                       </div>
@@ -305,7 +361,14 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
                 )}
                 {isHepsiburada(product) && (
                    <div className="space-y-4 bg-white/80 dark:bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Entegrasyon Durumu</h3>
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-bold text-slate-950 dark:text-white">Entegrasyon & Durum</h3>
+                        <div className="flex gap-2">
+                             <button className="px-3 py-1.5 bg-green-100 text-green-800 rounded-lg text-xs font-bold border border-green-200 hover:bg-green-200">Satışa Aç</button>
+                             <button className="px-3 py-1.5 bg-red-100 text-red-800 rounded-lg text-xs font-bold border border-red-200 hover:bg-red-200">Satışa Kapat</button>
+                        </div>
+                      </div>
+                      
                       <div className="grid grid-cols-2 gap-6">
                          <div>
                             <span className={inputLabelClass}>Inventory Upload ID</span>
@@ -317,6 +380,10 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
                                status={product.uploadStatus === 'Success' ? 'success' : product.uploadStatus === 'Error' ? 'error' : 'warning'} 
                                text={product.uploadStatus || 'Bilinmiyor'} 
                             />
+                         </div>
+                         <div className="col-span-2">
+                            <span className={inputLabelClass}>Son Senkronizasyon</span>
+                            <span className="text-xs font-mono">{product.lastSyncAt ? new Date(product.lastSyncAt).toLocaleString() : 'Yok'}</span>
                          </div>
                       </div>
                       {product.errorMessage && (
@@ -330,19 +397,41 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
              </div>
           )}
 
-           {/* DELIVERY TAB ... uses same classes ... */}
+           {/* DELIVERY TAB */}
            {activeTab === 'delivery' && (
               <div className="space-y-8">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
-                       <label className={inputLabelClass}>Kargo Firması</label>
-                       <select className={`${inputClass} appearance-none cursor-pointer`}>
+                       <label className={inputLabelClass}>Kargo Firması (1)</label>
+                       <select className={`${inputClass} appearance-none cursor-pointer text-slate-900 dark:text-slate-200`} defaultValue={isHepsiburada(product) ? product.cargoCompany1 : product.cargoCompanyId}>
                           <option value="1">Yurtiçi Kargo</option>
                           <option value="2">Aras Kargo</option>
                           <option value="3">MNG Kargo</option>
+                          {isHepsiburada(product) && <option value={product.cargoCompany1}>{product.cargoCompany1}</option>}
                        </select>
                     </div>
-                    {/* ... other inputs ... */}
+
+                    {isHepsiburada(product) && (
+                        <>
+                           <div className="space-y-2">
+                               <label className={inputLabelClass}>Kargo Firması (2) - Opsiyonel</label>
+                               <input type="text" defaultValue={product.cargoCompany2} className={inputClass} placeholder="Diğer Kargo Firması" />
+                           </div>
+                           <div className="space-y-2">
+                               <label className={inputLabelClass}>Kargo Firması (3) - Opsiyonel</label>
+                               <input type="text" defaultValue={product.cargoCompany3} className={inputClass} placeholder="Diğer Kargo Firması" />
+                           </div>
+                           <div className="space-y-2">
+                               <label className={inputLabelClass}>Kargo Adres Etiketi</label>
+                               <input type="text" defaultValue={product.shippingAddressLabel} className={inputClass} placeholder="Depo-1" />
+                           </div>
+                           <div className="space-y-2">
+                               <label className={inputLabelClass}>Kargo Şablon Adı</label>
+                               <input type="text" defaultValue={product.shippingProfileName} className={inputClass} placeholder="Varsayılan Şablon" />
+                           </div>
+                        </>
+                    )}
+
                     <div className="space-y-2">
                        <label className={inputLabelClass}>Kargoya Veriliş Süresi (Gün)</label>
                        <input 
@@ -355,7 +444,7 @@ export const EditModal: React.FC<Props> = ({ isOpen, onClose, product, platform 
                        <>
                           <div className="space-y-2">
                              <label className={inputLabelClass}>Hızlı Teslimat Tipi</label>
-                             <select className={inputClass} defaultValue={product.deliveryOption.fastDeliveryType}>
+                             <select className={`${inputClass} text-slate-900 dark:text-slate-200`} defaultValue={product.deliveryOption.fastDeliveryType}>
                                 <option value="SAME_DAY">Aynı Gün</option>
                                 <option value="FAST">Hızlı Teslimat</option>
                                 <option value="">Yok</option>

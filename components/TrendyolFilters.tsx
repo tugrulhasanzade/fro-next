@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { FilterState } from '../types';
 import { Search, Calendar, Filter, Tag, Clock } from 'lucide-react';
@@ -8,10 +9,8 @@ interface Props {
 }
 
 export const TrendyolFilters: React.FC<Props> = ({ filters, setFilters }) => {
-  // Light Mode: 
-  // - Border: Indigo-200 -> Indigo-600 (Focus)
-  // - Icon: text-purple-600 (Matches Button Gradient End)
-  const inputClass = "w-full bg-white dark:bg-slate-950/50 border-2 border-indigo-200 hover:border-indigo-400 focus:border-indigo-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-950 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-indigo-600/10 transition-all shadow-sm font-bold text-sm";
+  // Updated inputClass: placeholder-slate-500 for better visibility in light mode
+  const inputClass = "w-full bg-white dark:bg-slate-950/50 border-2 border-indigo-200 hover:border-indigo-400 focus:border-indigo-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-950 dark:text-slate-200 placeholder-slate-500 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-indigo-600/10 transition-all shadow-sm font-bold text-sm";
   const labelClass = "text-[11px] font-black text-indigo-900 dark:text-slate-400 uppercase tracking-wide mb-1.5 ml-1 block";
   
   // Icon color matches the button gradient
@@ -57,7 +56,7 @@ export const TrendyolFilters: React.FC<Props> = ({ filters, setFilters }) => {
           <div className="relative">
             <Filter className={iconClass} />
             <select
-              className={`${inputClass} appearance-none cursor-pointer`}
+              className={`${inputClass} appearance-none cursor-pointer text-slate-900 dark:text-slate-200`}
               value={filters.status}
               onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
             >
@@ -74,7 +73,11 @@ export const TrendyolFilters: React.FC<Props> = ({ filters, setFilters }) => {
            <label className={labelClass}>Tarih Tipi</label>
            <div className="relative">
              <Clock className={iconClass} />
-             <select className={`${inputClass} appearance-none cursor-pointer`}>
+             <select 
+               className={`${inputClass} appearance-none cursor-pointer text-slate-900 dark:text-slate-200`}
+               value={filters.dateQueryType || 'lastModified'}
+               onChange={(e) => setFilters(prev => ({ ...prev, dateQueryType: e.target.value as any }))}
+             >
                 <option value="lastModified">Son Güncelleme</option>
                 <option value="created">Oluşturulma</option>
              </select>
@@ -113,7 +116,7 @@ export const TrendyolFilters: React.FC<Props> = ({ filters, setFilters }) => {
       {/* Action Buttons (Filter & Reset) */}
       <div className="flex flex-col justify-end gap-3 pb-1">
           <button className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2 transform active:scale-95 border border-indigo-500/20">
-             <Filter size={16} /> Filtrele
+             <Filter size={16} /> Filtrele (Yenile)
           </button>
           <button className="w-full py-3 rounded-xl bg-white hover:bg-indigo-50 dark:bg-white/5 border-2 border-indigo-200 dark:border-white/10 text-indigo-900 dark:text-slate-300 font-bold transition-all transform active:scale-95">
              Temizle

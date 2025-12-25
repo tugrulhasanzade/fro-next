@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { FilterState } from '../types';
 import { Search, ListFilter, Hash, Calendar, Filter } from 'lucide-react';
@@ -8,10 +9,8 @@ interface Props {
 }
 
 export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => {
-  // Light Mode: 
-  // - Border: Orange-200 -> Orange-600 (Focus)
-  // - Icon: text-orange-600 (Matches Button Gradient Start)
-  const inputClass = "w-full bg-white dark:bg-slate-950/50 border-2 border-orange-200 hover:border-orange-400 focus:border-orange-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-orange-600/10 transition-all shadow-sm font-bold text-sm";
+  // Updated inputClass: placeholder-slate-500 for better visibility in light mode
+  const inputClass = "w-full bg-white dark:bg-slate-950/50 border-2 border-orange-200 hover:border-orange-400 focus:border-orange-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-slate-200 placeholder-slate-500 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-orange-600/10 transition-all shadow-sm font-bold text-sm";
   const labelClass = "text-[11px] font-black text-orange-900 dark:text-slate-400 uppercase tracking-wide mb-1.5 ml-1 block";
   
   // Icon color matches the button gradient
@@ -43,6 +42,8 @@ export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => 
                type="text"
                placeholder="Ürün ID..."
                className={inputClass}
+               value={filters.productId || ''}
+               onChange={(e) => setFilters(prev => ({ ...prev, productId: e.target.value }))}
              />
            </div>
         </div>
@@ -55,7 +56,7 @@ export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => 
            <div className="relative">
              <ListFilter className={iconClass} />
              <select
-               className={`${inputClass} appearance-none cursor-pointer`}
+               className={`${inputClass} appearance-none cursor-pointer text-slate-900 dark:text-slate-200`}
                value={filters.status}
                onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
              >
@@ -72,6 +73,8 @@ export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => 
              <input 
                 type="date"
                 className={inputClass}
+                value={filters.startDate}
+                onChange={(e) => setFilters(prev => ({ ...prev, startDate: e.target.value }))}
              />
            </div>
         </div>
@@ -86,6 +89,8 @@ export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => 
              <input 
                 type="date"
                 className={inputClass}
+                value={filters.endDate}
+                onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
              />
            </div>
         </div>
@@ -94,7 +99,7 @@ export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => 
       {/* Actions */}
       <div className="flex flex-col justify-end gap-3 pb-1">
          <button className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-black shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center gap-2 transform active:scale-95 border border-orange-500/20">
-            <Filter size={16} /> Listeyi Getir
+            <Filter size={16} /> Listeyi Getir (Yenile)
          </button>
          <button className="w-full py-3 rounded-xl bg-white hover:bg-orange-50 dark:bg-white/5 border-2 border-orange-200 dark:border-white/10 text-orange-900 dark:text-slate-300 font-bold transition-all transform active:scale-95">
             Temizle

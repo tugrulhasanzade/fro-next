@@ -1,3 +1,4 @@
+
 import { TrendyolProduct, HepsiburadaProduct } from './types';
 
 export const MOCK_TRENDYOL_PRODUCTS: TrendyolProduct[] = [
@@ -31,7 +32,8 @@ export const MOCK_TRENDYOL_PRODUCTS: TrendyolProduct[] = [
     blacklisted: false,
     batchRequestId: 'REQ-999',
     batchStatus: 'COMPLETED',
-    lastModified: Date.now()
+    lastModified: Date.now(),
+    lastSyncAt: Date.now() - 3600000
   },
   {
     id: 't2',
@@ -64,7 +66,8 @@ export const MOCK_TRENDYOL_PRODUCTS: TrendyolProduct[] = [
     batchRequestId: 'REQ-1002',
     batchStatus: 'FAILED',
     failureReasons: ['Görsel çözünürlüğü düşük', 'Açıklama yetersiz'],
-    lastModified: Date.now() - 86400000
+    lastModified: Date.now() - 86400000,
+    lastSyncAt: Date.now() - 90000000
   }
 ];
 
@@ -77,6 +80,7 @@ export const MOCK_HEPSIBURADA_PRODUCTS: HepsiburadaProduct[] = [
     availableStock: 145,
     dispatchTime: 1,
     cargoCompany1: 'Aras Kargo',
+    cargoCompany2: 'Yurtiçi Kargo',
     merchantId: 'M-555',
     categoryId: '1201',
     barcode: '868000000001',
@@ -88,7 +92,9 @@ export const MOCK_HEPSIBURADA_PRODUCTS: HepsiburadaProduct[] = [
     taxVatRate: 10,
     images: ['https://picsum.photos/300/400?random=1'],
     uploadStatus: 'Success',
-    updateDate: Date.now()
+    updateDate: Date.now(),
+    lastSyncAt: Date.now() - 1200000,
+    shippingProfileName: 'Standart Profil'
   },
   {
     id: 'h2',
@@ -111,6 +117,7 @@ export const MOCK_HEPSIBURADA_PRODUCTS: HepsiburadaProduct[] = [
     uploadStatus: 'Error',
     errorMessage: 'Stok yetersiz bilgisi hatalı',
     errorDetails: 'AvailableStock 0 iken satışa açılamaz.',
-    updateDate: Date.now() - 100000
+    updateDate: Date.now() - 100000,
+    lastSyncAt: Date.now() - 400000
   }
 ];
