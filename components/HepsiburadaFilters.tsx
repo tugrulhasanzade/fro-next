@@ -9,12 +9,13 @@ interface Props {
 
 export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => {
   // Light Mode: 
-  // - Border: Orange-400 (Very visible)
-  // - Background: Orange-50/50 (Tinted)
-  // - Text: Black
-  const inputClass = "w-full bg-orange-50/50 dark:bg-slate-950/50 border-2 border-orange-400 hover:border-red-500 focus:border-orange-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-slate-200 placeholder-orange-900/50 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all shadow-sm font-bold text-sm";
-  const labelClass = "text-[11px] font-black text-orange-950 dark:text-slate-400 uppercase tracking-wide mb-1.5 ml-1 block";
-  const iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-orange-700 dark:text-slate-500 w-4 h-4";
+  // - Border: Orange-200 -> Orange-600 (Focus)
+  // - Icon: text-orange-600 (Matches Button Gradient Start)
+  const inputClass = "w-full bg-white dark:bg-slate-950/50 border-2 border-orange-200 hover:border-orange-400 focus:border-orange-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-orange-600/10 transition-all shadow-sm font-bold text-sm";
+  const labelClass = "text-[11px] font-black text-orange-900 dark:text-slate-400 uppercase tracking-wide mb-1.5 ml-1 block";
+  
+  // Icon color matches the button gradient
+  const iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-orange-600 dark:text-slate-500 w-4 h-4";
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -95,7 +96,7 @@ export const HepsiburadaFilters: React.FC<Props> = ({ filters, setFilters }) => 
          <button className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-black shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center gap-2 transform active:scale-95 border border-orange-500/20">
             <Filter size={16} /> Listeyi Getir
          </button>
-         <button className="w-full py-3 rounded-xl bg-orange-100 hover:bg-white dark:bg-white/5 border-2 border-orange-300 dark:border-white/10 text-orange-900 dark:text-slate-300 font-bold transition-all transform active:scale-95">
+         <button className="w-full py-3 rounded-xl bg-white hover:bg-orange-50 dark:bg-white/5 border-2 border-orange-200 dark:border-white/10 text-orange-900 dark:text-slate-300 font-bold transition-all transform active:scale-95">
             Temizle
          </button>
       </div>

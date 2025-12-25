@@ -9,12 +9,13 @@ interface Props {
 
 export const TrendyolFilters: React.FC<Props> = ({ filters, setFilters }) => {
   // Light Mode: 
-  // - Border: Indigo-400 (Very visible)
-  // - Background: Indigo-50/50 (Tinted, not stark white)
-  // - Text: Black
-  const inputClass = "w-full bg-indigo-50/50 dark:bg-slate-950/50 border-2 border-indigo-400 hover:border-purple-500 focus:border-indigo-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-950 dark:text-slate-200 placeholder-indigo-900/50 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 transition-all shadow-sm font-bold text-sm";
-  const labelClass = "text-[11px] font-black text-indigo-950 dark:text-slate-400 uppercase tracking-wide mb-1.5 ml-1 block";
-  const iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-indigo-700 dark:text-slate-500 w-4 h-4";
+  // - Border: Indigo-200 -> Indigo-600 (Focus)
+  // - Icon: text-purple-600 (Matches Button Gradient End)
+  const inputClass = "w-full bg-white dark:bg-slate-950/50 border-2 border-indigo-200 hover:border-indigo-400 focus:border-indigo-600 dark:border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-950 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-indigo-600/10 transition-all shadow-sm font-bold text-sm";
+  const labelClass = "text-[11px] font-black text-indigo-900 dark:text-slate-400 uppercase tracking-wide mb-1.5 ml-1 block";
+  
+  // Icon color matches the button gradient
+  const iconClass = "absolute left-3 top-1/2 -translate-y-1/2 text-purple-600 dark:text-slate-500 w-4 h-4";
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -111,10 +112,10 @@ export const TrendyolFilters: React.FC<Props> = ({ filters, setFilters }) => {
 
       {/* Action Buttons (Filter & Reset) */}
       <div className="flex flex-col justify-end gap-3 pb-1">
-          <button className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black shadow-lg shadow-indigo-500/30 transition-all flex items-center justify-center gap-2 transform active:scale-95 border border-indigo-500/20">
+          <button className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2 transform active:scale-95 border border-indigo-500/20">
              <Filter size={16} /> Filtrele
           </button>
-          <button className="w-full py-3 rounded-xl bg-indigo-100 hover:bg-white dark:bg-white/5 border-2 border-indigo-300 dark:border-white/10 text-indigo-900 dark:text-slate-300 font-bold transition-all transform active:scale-95">
+          <button className="w-full py-3 rounded-xl bg-white hover:bg-indigo-50 dark:bg-white/5 border-2 border-indigo-200 dark:border-white/10 text-indigo-900 dark:text-slate-300 font-bold transition-all transform active:scale-95">
              Temizle
           </button>
       </div>
