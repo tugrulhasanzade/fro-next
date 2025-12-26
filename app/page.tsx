@@ -74,45 +74,45 @@ export default function Home() {
     <div className="overflow-x-auto">
       <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="text-white dark:text-slate-400 text-xs border-b-4 border-indigo-500 dark:border-white/10 uppercase tracking-wider bg-gradient-to-r from-indigo-900 via-violet-900 to-indigo-900 dark:from-transparent dark:to-transparent shadow-md">
-            <th className="p-5 font-black text-white dark:text-slate-300">Ürün Detayı</th>
-            <th className="p-5 font-black text-white dark:text-slate-300">Barkod / Marka</th>
-            <th className="p-5 font-black text-right text-white dark:text-slate-300">Fiyat & Trend</th>
-            <th className="p-5 font-black text-center text-white dark:text-slate-300">Stok</th>
-            <th className="p-5 font-black text-white dark:text-slate-300">Durum</th>
-            <th className="p-5 font-black text-right text-white dark:text-slate-300">İşlemler</th>
+          <tr className="text-black dark:text-slate-400 text-xs border-b-2 border-indigo-300 dark:border-white/10 uppercase tracking-wider bg-gradient-to-r from-indigo-200 via-purple-200 to-indigo-200 dark:from-transparent dark:to-transparent">
+            <th className="p-5 font-black text-indigo-950 dark:text-slate-300">Ürün Detayı</th>
+            <th className="p-5 font-black text-indigo-950 dark:text-slate-300">Barkod / Marka</th>
+            <th className="p-5 font-black text-right text-indigo-950 dark:text-slate-300">Fiyat & Trend</th>
+            <th className="p-5 font-black text-center text-indigo-950 dark:text-slate-300">Stok</th>
+            <th className="p-5 font-black text-indigo-950 dark:text-slate-300">Durum</th>
+            <th className="p-5 font-black text-right text-indigo-950 dark:text-slate-300">İşlemler</th>
           </tr>
         </thead>
-        <tbody className="text-slate-950 dark:text-slate-200 text-sm bg-white dark:bg-transparent">
+        <tbody className="text-slate-950 dark:text-slate-200 text-sm">
           {MOCK_TRENDYOL_PRODUCTS.map((product) => (
-            <tr key={product.id} className="glass-shine-hover border-b-2 border-indigo-100 dark:border-white/5 hover:bg-indigo-50 dark:hover:bg-white/5 transition-all duration-300 group hover:scale-[1.005] hover:shadow-lg hover:z-10 relative">
+            <tr key={product.id} className="glass-shine-hover border-b border-indigo-200 dark:border-white/5 hover:bg-white/60 dark:hover:bg-white/5 transition-all duration-300 group hover:scale-[1.005] hover:shadow-lg hover:z-10 relative">
               <td className="p-5">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-16 bg-white dark:bg-white/10 rounded-lg overflow-hidden shadow-lg border-2 border-indigo-200 dark:border-transparent relative transition-transform duration-300 group-hover:scale-110">
+                  <div className="w-12 h-16 bg-white dark:bg-white/10 rounded-lg overflow-hidden shadow-md border-2 border-indigo-100 dark:border-transparent relative transition-transform duration-300 group-hover:scale-110">
                      <img src={product.images[0]?.url} alt="" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <div className="font-extrabold text-black dark:text-white group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors line-clamp-2 max-w-[200px]">{product.title}</div>
-                    <div className="text-white dark:text-slate-400 text-[10px] mt-1.5 font-bold bg-indigo-600 dark:bg-white/5 px-2 py-0.5 rounded w-fit shadow-sm">{product.categoryName}</div>
+                    <div className="text-indigo-900 dark:text-slate-400 text-[11px] mt-1 font-black bg-indigo-200/60 dark:bg-white/5 px-2 py-0.5 rounded w-fit border border-indigo-300 dark:border-transparent">{product.categoryName}</div>
                   </div>
                 </div>
               </td>
               <td className="p-5">
                 <div className="font-mono text-xs text-indigo-900 dark:text-slate-400 flex items-center gap-1 font-bold"><Layers size={10}/> {product.barcode}</div>
                 <div className="text-black dark:text-slate-300 font-black mt-1 text-xs">{product.brandName}</div>
-                <div className="text-slate-600 dark:text-slate-500 text-[10px] mt-0.5 font-bold">{product.stockCode}</div>
+                <div className="text-slate-700 dark:text-slate-500 text-[10px] mt-0.5 font-bold">{product.stockCode}</div>
               </td>
               <td className="p-5 text-right">
                  <div className="flex flex-col items-end gap-1">
-                    <div className="text-indigo-900 dark:text-indigo-400 font-black text-lg">{product.salePrice} <span className="text-[10px] text-slate-500 dark:text-slate-400">{product.currencyType}</span></div>
+                    <div className="text-indigo-950 dark:text-indigo-400 font-black text-lg">{product.salePrice} <span className="text-[10px] text-slate-700 dark:text-slate-400">{product.currencyType}</span></div>
                     <div className="flex items-center gap-2">
-                         <Sparkline color={product.salePrice > 500 ? "red" : "emerald"} />
-                         <div className="text-slate-500 dark:text-slate-500 text-xs line-through decoration-red-500/50 font-bold">{product.listPrice}</div>
+                        <Sparkline color={product.salePrice > 500 ? "red" : "emerald"} />
+                        <div className="text-slate-600 dark:text-slate-500 text-xs line-through decoration-red-500/50 font-bold">{product.listPrice}</div>
                     </div>
                  </div>
               </td>
               <td className="p-5 text-center">
-                 <span className={`px-3 py-1.5 rounded-lg text-xs font-black shadow-md border-2 transition-transform hover:scale-110 inline-block ${product.quantity < 10 ? 'bg-red-50 border-red-200 text-red-700 dark:border-transparent dark:bg-red-500/20 dark:text-red-300 shadow-red-500/20' : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:border-transparent dark:bg-green-500/20 dark:text-green-300 shadow-green-500/20'}`}>
+                 <span className={`px-3 py-1.5 rounded-lg text-xs font-black shadow-lg transition-transform hover:scale-110 inline-block border ${product.quantity < 10 ? 'bg-red-100 text-red-900 border-red-200 dark:border-transparent dark:bg-red-500/20 dark:text-red-300 shadow-red-500/20' : 'bg-emerald-100 text-emerald-900 border-emerald-200 dark:border-transparent dark:bg-green-500/20 dark:text-green-300 shadow-green-500/20'}`}>
                     {product.quantity}
                  </span>
               </td>
@@ -128,7 +128,7 @@ export default function Home() {
               <td className="p-5 text-right">
                 <button 
                   onClick={() => handleEdit(product)}
-                  className="group/btn relative px-4 py-2 rounded-xl bg-indigo-50 dark:bg-white/5 border-2 border-indigo-200 dark:border-white/10 hover:border-indigo-600 dark:hover:border-indigo-400 text-indigo-900 dark:text-slate-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500/20 dark:hover:text-indigo-300 transition-all flex items-center gap-2 ml-auto shadow-sm font-bold hover:scale-105 active:scale-95"
+                  className="group/btn relative px-4 py-2 rounded-xl bg-white dark:bg-white/5 border-2 border-indigo-300 dark:border-white/10 hover:border-indigo-600 dark:hover:border-indigo-400 text-indigo-900 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 hover:text-indigo-800 dark:hover:text-indigo-300 transition-all flex items-center gap-2 ml-auto shadow-sm font-bold hover:scale-105 active:scale-95"
                 >
                   <Edit size={14} />
                   <span className="text-xs">Yönet</span>
@@ -145,21 +145,21 @@ export default function Home() {
     <div className="overflow-x-auto">
       <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="text-white dark:text-slate-400 text-xs border-b-4 border-orange-500 dark:border-white/10 uppercase tracking-wider bg-gradient-to-r from-orange-800 via-red-700 to-orange-800 dark:from-transparent dark:to-transparent shadow-md">
-             <th className="p-5 font-black text-white dark:text-slate-300">Ürün</th>
-             <th className="p-5 font-black text-white dark:text-slate-300">SKU Bilgileri</th>
-             <th className="p-5 font-black text-right text-white dark:text-slate-300">Fiyat & Trend</th>
-             <th className="p-5 font-black text-center text-white dark:text-slate-300">Stok</th>
-             <th className="p-5 font-black text-white dark:text-slate-300">Entegrasyon</th>
-             <th className="p-5 font-black text-right text-white dark:text-slate-300">İşlemler</th>
+          <tr className="text-black dark:text-slate-400 text-xs border-b-2 border-orange-300 dark:border-white/10 uppercase tracking-wider bg-gradient-to-r from-orange-200 via-red-200 to-orange-200 dark:from-transparent dark:to-transparent">
+             <th className="p-5 font-black text-orange-950 dark:text-slate-300">Ürün</th>
+             <th className="p-5 font-black text-orange-950 dark:text-slate-300">SKU Bilgileri</th>
+             <th className="p-5 font-black text-right text-orange-950 dark:text-slate-300">Fiyat & Trend</th>
+             <th className="p-5 font-black text-center text-orange-950 dark:text-slate-300">Stok</th>
+             <th className="p-5 font-black text-orange-950 dark:text-slate-300">Entegrasyon</th>
+             <th className="p-5 font-black text-right text-orange-950 dark:text-slate-300">İşlemler</th>
           </tr>
         </thead>
-        <tbody className="text-slate-950 dark:text-slate-200 text-sm bg-white dark:bg-transparent">
+        <tbody className="text-slate-950 dark:text-slate-200 text-sm">
           {MOCK_HEPSIBURADA_PRODUCTS.map((product) => (
-            <tr key={product.id} className="glass-shine-hover border-b-2 border-orange-100 dark:border-white/5 hover:bg-orange-50 dark:hover:bg-white/5 transition-all duration-300 group hover:scale-[1.005] hover:shadow-lg hover:z-10 relative">
+            <tr key={product.id} className="glass-shine-hover border-b border-orange-200 dark:border-white/5 hover:bg-white/60 dark:hover:bg-white/5 transition-all duration-300 group hover:scale-[1.005] hover:shadow-lg hover:z-10 relative">
               <td className="p-5">
                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-16 bg-white dark:bg-white/10 rounded-lg overflow-hidden shadow-lg border-2 border-orange-200 dark:border-transparent transition-transform duration-300 group-hover:scale-110">
+                    <div className="w-12 h-16 bg-white dark:bg-white/10 rounded-lg overflow-hidden shadow-md border-2 border-orange-100 dark:border-transparent transition-transform duration-300 group-hover:scale-110">
                        <img src={product.images[0] || 'https://via.placeholder.com/50'} alt="" className="w-full h-full object-cover" />
                     </div>
                     <div>
@@ -169,7 +169,7 @@ export default function Home() {
                  </div>
               </td>
               <td className="p-5 font-mono text-xs space-y-1">
-                 <div className="text-white dark:text-orange-400 bg-orange-600 dark:bg-orange-900/20 px-2 py-0.5 rounded w-fit shadow-sm font-bold">HB: {product.hepsiburadaSku}</div>
+                 <div className="text-orange-900 dark:text-orange-400 bg-orange-200/60 dark:bg-orange-900/20 px-2 py-0.5 rounded w-fit border border-orange-300 dark:border-transparent font-black">HB: {product.hepsiburadaSku}</div>
                  <div className="text-slate-800 font-bold">M: {product.merchantSku}</div>
               </td>
               <td className="p-5 text-right">
@@ -179,7 +179,7 @@ export default function Home() {
                  </div>
               </td>
               <td className="p-5 text-center">
-                 <span className={`px-3 py-1.5 rounded-lg text-xs font-black shadow-md border-2 transition-transform hover:scale-110 inline-block ${product.availableStock === 0 ? 'bg-red-50 border-red-200 text-red-700 dark:bg-red-500/20 dark:text-red-300 dark:border-transparent shadow-red-500/20' : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-green-500/20 dark:text-green-300 dark:border-transparent shadow-green-500/20'}`}>
+                 <span className={`px-3 py-1.5 rounded-lg text-xs font-black shadow-lg transition-transform hover:scale-110 inline-block border ${product.availableStock === 0 ? 'bg-red-100 text-red-900 border-red-200 dark:bg-red-500/20 dark:text-red-300 dark:border-transparent shadow-red-500/20' : 'bg-emerald-100 text-emerald-900 border-emerald-200 dark:bg-green-500/20 dark:text-green-300 dark:border-transparent shadow-green-500/20'}`}>
                     {product.availableStock}
                  </span>
               </td>
@@ -197,7 +197,7 @@ export default function Home() {
               <td className="p-5 text-right">
                 <button 
                    onClick={() => handleEdit(product)}
-                   className="group/btn relative px-4 py-2 rounded-xl bg-orange-50 dark:bg-white/5 border-2 border-orange-200 dark:border-white/10 hover:border-orange-600 dark:hover:border-orange-400 text-orange-900 dark:text-slate-300 hover:bg-orange-100 dark:hover:bg-orange-500/20 hover:text-orange-800 dark:hover:text-orange-300 transition-all flex items-center gap-2 ml-auto shadow-sm font-bold hover:scale-105 active:scale-95"
+                   className="group/btn relative px-4 py-2 rounded-xl bg-white dark:bg-white/5 border-2 border-orange-300 dark:border-white/10 hover:border-orange-600 dark:hover:border-orange-400 text-orange-900 dark:text-slate-300 hover:bg-orange-100 dark:hover:bg-orange-500/20 hover:text-orange-800 dark:hover:text-orange-300 transition-all flex items-center gap-2 ml-auto shadow-sm font-bold hover:scale-105 active:scale-95"
                 >
                    <Edit size={14} />
                    <span className="text-xs">Yönet</span>
