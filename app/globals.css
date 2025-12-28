@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -5,68 +6,102 @@
 
 @layer base {
   body {
-    @apply antialiased transition-colors duration-300 overflow-x-hidden;
+    @apply bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 antialiased overflow-x-hidden transition-colors duration-300;
   }
 }
 
 @layer utilities {
-  .glass-shine-hover {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply bg-white/80 dark:bg-gray-900/60 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/50;
+  }
+
+  /* Glass Shine Effect */
+  .glass-shine {
     position: relative;
     overflow: hidden;
   }
-  .glass-shine-hover::after {
+
+  .glass-shine::after {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2) 50%, transparent);
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent
+    );
     transform: skewX(-25deg);
-    transition: left 0.5s;
     pointer-events: none;
   }
-  .glass-shine-hover:hover::after {
-    left: 200%;
-    transition: left 0.7s ease-in-out;
+
+  .glass-shine:hover::after {
+    animation: shine 0.75s ease-in-out;
   }
-}
 
-/* Custom Scrollbar Styles */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+  @keyframes shine {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 200%;
+    }
+  }
 
-/* Light Mode Scrollbar */
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.05);
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
 
-/* Dark Mode Scrollbar */
-.dark .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(30, 41, 59, 0.4);
-}
-.dark .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.05);
-}
-.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
-}
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-900/40;
+  }
 
-/* Animations */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+  }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-600;
+  }
+
+  /* Animated Gradient Background */
+  .animated-gradient {
+    background: linear-gradient(-45deg, #6366f1, #8b5cf6, #ec4899, #f59e0b);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Toast Slide In Animation */
+  @keyframes slide-in-right {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s ease-out;
+  }
 }

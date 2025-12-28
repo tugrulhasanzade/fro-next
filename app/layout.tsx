@@ -1,23 +1,21 @@
-
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "E-Ticaret Yönetim Paneli",
-  description: "Trendyol ve Hepsiburada Yönetim Paneli",
+  title: 'turkwise. | E-Ticaret Yönetim Paneli',
+  description: 'Modern ve kullanıcı dostu e-ticaret yönetim platformu',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="tr">
-      <body className={inter.className}>{children}</body>
+    <html lang="tr" suppressHydrationWarning>
+      <body className="font-sans">
+        {children}
+      </body>
     </html>
   );
 }
